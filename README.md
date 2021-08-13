@@ -14,8 +14,18 @@ Make flutter web load more faster.
 
 - add css & loading spinner in index.html
 
-- build for mobile browser with faster cdn
+- remove 'cupertino_icons' in pubspec.yaml if not used
+
+- remove 'uses-material-design' in pubspec.yaml if no needed
+
+- build for mobile browser using html renderer
 
     ```shell
-    flutter build web  --web-renderer html --release --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.24.0/bin/
+    flutter build web --web-renderer html --release
+    ```
+
+- or build for desktop if you need canvaskit but with faster cdn (make sure you put the right version for wasm)
+
+    ```shell
+    flutter build web --web-renderer canvaskit --release --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.25.1/bin/
     ```
