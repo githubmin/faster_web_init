@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>
+        Hello world
+    </h2>
+
+    <script>
+        var str0 = 'function hello() {'
+        var str1 = 'console.log("hello world!");';
+        var str2 = '}';
+        var str3 = 'hello();';
+
+        async function loadJs() {
+
+            let f1 = fetch('https://raw.githubusercontent.com/githubmin/faster_web_init/main/README.md');
+            let f2 = fetch('https://raw.githubusercontent.com/githubmin/bug_video/main/README.md');
+            let fetches = await Promise.all([f1, f2]);
+            let values = await Promise.all(fetches.map(f => f.text()));
+
+            console.log(values[0]);
+            console.log(values[1]);
+
+            var scriptTag = document.createElement('script');
+            scriptTag.innerHTML = str0 + str1 + str2 + str3;
+            scriptTag.type = 'application/javascript';
+            document.body.append(scriptTag);
+        }
+
+        loadJs();
+    </script>
+</body>
+
+</html>

@@ -20,12 +20,41 @@ Make flutter web load more faster.
 
 - build for mobile browser using html renderer
 
-    ```shell
+    ```bash
     flutter build web --web-renderer html --release
     ```
 
 - or build for desktop if you need canvaskit but with faster cdn (make sure you put the right version for wasm)
 
-    ```shell
+    ```bash
     flutter build web --web-renderer canvaskit --release --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.25.1/bin/
+    ```
+
+- split file intto 6 sub files
+
+    ```bash
+    npx split-file -s main.dart.js 6
+    ```
+
+    or using `split` on Unix
+
+    ```bash
+    split -l 8000 main.dart.js
+    ```
+
+- add load script in index.html
+
+    ```javascript
+    let files = Array.from({length: 6}, (_, i) => `main.dart.js.sf-part${i+1}`);
+    let fetches = await Promise.all(files.map(f => fetch(f)));
+    let values = await Promise.all(fetches.map(f => f.text()));
+    scriptTag.innerHTML = values.join('');
+    ```
+
+- build it again (to update index.html)
+
+- run!
+
+    ```bash
+    npx http-server -c-1
     ```
