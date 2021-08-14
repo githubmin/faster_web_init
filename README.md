@@ -30,19 +30,19 @@ Make flutter web load more faster.
     flutter build web --web-renderer canvaskit --release --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://cdn.jsdelivr.net/npm/canvaskit-wasm@0.25.1/bin/
     ```
 
-- split file intto 6 sub files
+- ~~split file intto 6 sub files~~
 
     ```bash
     npx split-file -s main.dart.js 6
     ```
 
-    or using `split` on Unix
+    ~~or using `split` on Unix~~
 
     ```bash
     split -l 8000 main.dart.js
     ```
 
-- add load script in index.html
+- ~~add load script in index.html~~
 
     ```javascript
     let files = Array.from({length: 6}, (_, i) => `main.dart.js.sf-part${i+1}`);
@@ -50,6 +50,19 @@ Make flutter web load more faster.
     let values = await Promise.all(fetches.map(f => f.text()));
     scriptTag.innerHTML = values.join('');
     ```
+
+- add zutf8.js to index.html
+
+    ```html
+    <script src="https://cdn.jsdelivr.net/npm/lzutf8@0.6.0/build/production/lzutf8.min.js"></script>
+    ```
+
+- compress main.dart.js
+
+    ```bash
+    npx lzutf8-file -c main.dart.js main.dart.js.compressed
+    ```
+- change `main.dart.js` to `main.dart.js.compressed` on index.html
 
 - build it again (to update index.html)
 
