@@ -18,4 +18,6 @@ dev:
 clean:
 	bash run clean
 
-.PHONY: all usage help build compress dev clean
+ci: clean build compress dev
+
+.PHONY: all usage help build compress dev clean ci
