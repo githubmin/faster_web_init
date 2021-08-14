@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -o errexit -o nounset -o pipefail; shopt -s nullglob
+
+function build() {
+    flutter build web --web-renderer html --release
+}
+
+function compress() {
+    cd build/web/
+    npx lzutf8-file -c main.dart.js main.dart.js.compressed
+}
+
+function dev() {
+    cd build/web/
+    npx http-server -c-1
+}
+
+function clean() {
+    rm -rf build/web
+}
+
+function help() {
+    echo "available commands: build, compress, dev, clean, help"
+}
+
+[[ -z "${1-}" ]] && help "$0"
+case $1 in
+	build|compress|dev|clean) "$1" "${@:2}" ;;
+	*) help "$0" ;;
+esac
