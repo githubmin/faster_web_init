@@ -7,16 +7,16 @@ help:
 	@echo 'available commands: build, compress, dev, clean, help'
 
 build:
-	bash run build
+	@bash run build
 
 compress:
-	bash run compress
+	@bash run compress
 
 dev:
-	bash run dev
+	@bash run dev
 
 clean:
-	bash run clean
+	@bash run clean
 
 ci: clean build compress dev
 
